@@ -33,7 +33,7 @@ namespace IdentityServer.Middlewares
             var telemetry = new TelemetryClient(new TelemetryConfiguration(_applicationInsights.InstrumentationKey));
 
             telemetry.TrackTrace(new TraceTelemetry(context.User.Claims.FirstOrDefault()?.Value, SeverityLevel.Information));
-            
+
             if ((HttpMethods.IsPost(method) || HttpMethods.IsPut(method) || HttpMethods.IsPatch(method)))
             {
                 var body = await FormatRequestBody(context.Request);
