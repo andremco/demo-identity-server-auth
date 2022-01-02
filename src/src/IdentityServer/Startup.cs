@@ -28,7 +28,7 @@ namespace IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
             // uncomment, if you want to add an MVC-based UI
-            //services.AddControllersWithViews();
+            services.AddControllersWithViews();
 
             //To get value of secret to set in appsettings file
             //var secret = new Secret("b8b66f0a8781609214dc1fac0c43c5284491cbc00dfcc968ebbe834df3022894".Sha256());
@@ -41,7 +41,8 @@ namespace IdentityServer
                 })
                 .AddInMemoryIdentityResources(Configuration.GetSection("IdentityServer:IdentityResources"))
                 .AddInMemoryApiScopes(Configuration.GetSection("IdentityServer:ApiScopes"))
-                .AddInMemoryClients(Configuration.GetSection("IdentityServer:Clients"));
+                .AddInMemoryClients(Configuration.GetSection("IdentityServer:Clients"))
+                .AddTestUsers(TestUsers.Users);
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
 
@@ -64,17 +65,17 @@ namespace IdentityServer
             }
 
             // uncomment if you want to add MVC
-            //app.UseStaticFiles();
-            //app.UseRouting();
+            app.UseStaticFiles();
+            app.UseRouting();
             
             app.UseIdentityServer();
 
             // uncomment, if you want to add MVC
-            //app.UseAuthorization();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapDefaultControllerRoute();
-            //});
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
 
             app.UseMiddleware<LogMiddleware>();
 
