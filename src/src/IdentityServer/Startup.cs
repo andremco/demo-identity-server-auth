@@ -4,6 +4,7 @@
 
 using IdentityServer.Middlewares;
 using IdentityServer.Settings;
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,15 +30,18 @@ namespace IdentityServer
             // uncomment, if you want to add an MVC-based UI
             //services.AddControllersWithViews();
 
+            //To get value of secret to set in appsettings file
+            //var secret = new Secret("b8b66f0a8781609214dc1fac0c43c5284491cbc00dfcc968ebbe834df3022894".Sha256());
+
             var builder = services
                 .AddIdentityServer(options =>
                 {
                     // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                     options.EmitStaticAudienceClaim = true;
                 })
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients);
+                .AddInMemoryIdentityResources(Configuration.GetSection("IdentityServer:IdentityResources"))
+                .AddInMemoryApiScopes(Configuration.GetSection("IdentityServer:ApiScopes"))
+                .AddInMemoryClients(Configuration.GetSection("IdentityServer:Clients"));
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
 
