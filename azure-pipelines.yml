@@ -22,13 +22,14 @@ steps:
   inputs:
     command: 'build'
     arguments: '--configuration $(BuildConfiguration)'
-    projects: '**/*.csproj'
+    projects: '**/*.sln'
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish Project $(BuildConfiguration)'
   inputs:
     command: 'publish'
-    arguments: '--configuration $(BuildConfiguration)'
+    projects: '**/*.sln'
+    arguments: '--configuration $(BuildConfiguration) -o $(Build.ArtifactStagingDirectory)'
     publishWebProjects: true
 
 - task: PublishBuildArtifacts@1
