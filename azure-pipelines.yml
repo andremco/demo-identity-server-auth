@@ -25,6 +25,7 @@ steps:
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Publish Project $(BuildConfiguration)'
   inputs:
     command: 'publish'
     arguments: '--configuration $(BuildConfiguration)'
