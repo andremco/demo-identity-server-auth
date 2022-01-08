@@ -25,4 +25,4 @@ steps:
   displayName: 'Build web project'
   inputs:
     command: 'build'
-    projects: $(SolutionPath)
+    projects: '**/*.csproj'
