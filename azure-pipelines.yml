@@ -16,10 +16,6 @@ steps:
       echo Start building project 
   displayName: 'Start building project'
 
-- task: DotNetCoreInstaller@0
-  inputs:
-    version: '3.1.0'  
-
 - task: DotNetCoreCLI@2
   displayName: 'Build web project'
   inputs:
