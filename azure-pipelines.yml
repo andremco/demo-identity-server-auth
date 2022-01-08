@@ -36,7 +36,7 @@ steps:
   displayName: 'Copy File JWK to: $(Build.ArtifactStagingDirectory)'
   inputs:
     Contents: |
-      **/*.jwk
+      src/src/IdentityServer/*.jwk
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
