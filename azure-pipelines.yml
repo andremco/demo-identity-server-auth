@@ -25,10 +25,11 @@ steps:
   displayName: 'Build web project'
   inputs:
     command: 'build'
-    arguments: '--configuration $(BuildConfiguration)'    
+    arguments: '--configuration $(BuildConfiguration)'
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
+    arguments: '--configuration $(BuildConfiguration)'
     publishWebProjects: true
