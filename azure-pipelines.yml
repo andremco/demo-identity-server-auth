@@ -18,8 +18,8 @@ steps:
 
 - task: UseDotNet@2
   inputs:
-    packageType: 'sdk'
-    version: '3.1'
+    version: '3.0.x'
+    packageType: runtime
 
 - task: DotNetCoreCLI@2
   displayName: 'Build web project'
