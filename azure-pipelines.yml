@@ -10,19 +10,15 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo Start building project $(BuildConfiguration)
-  displayName: 'Start building project $(BuildConfiguration)'
 
 - task: UseDotNet@2
+  displayName: 'Runtime Net Core 3.0.x'
   inputs:
     version: '3.0.x'
     packageType: runtime
 
 - task: DotNetCoreCLI@2
-  displayName: 'Build web project'
+  displayName: 'Start Building Project $(BuildConfiguration)'
   inputs:
     command: 'build'
     arguments: '--configuration $(BuildConfiguration)'
