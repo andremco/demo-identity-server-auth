@@ -16,6 +16,11 @@ steps:
       echo Start building project 
   displayName: 'Start building project'
 
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.1'
+
 - task: DotNetCoreCLI@2
   displayName: 'Build web project'
   inputs:
