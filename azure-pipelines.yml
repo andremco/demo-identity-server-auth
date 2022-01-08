@@ -13,8 +13,8 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      echo Start building project $(buildConfiguration)
-  displayName: 'Start building project $(buildConfiguration)'
+      echo Start building project $(BuildConfiguration)
+  displayName: 'Start building project $(BuildConfiguration)'
 
 - task: UseDotNet@2
   inputs:
@@ -25,4 +25,5 @@ steps:
   displayName: 'Build web project'
   inputs:
     command: 'build'
+    arguments: '--configuration $(BuildConfiguration)'    
     projects: '**/*.csproj'
