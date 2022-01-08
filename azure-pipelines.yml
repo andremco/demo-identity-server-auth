@@ -13,8 +13,8 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      echo Start building project 
-  displayName: 'Start building project'
+      echo Start building project $(buildConfiguration)
+  displayName: 'Start building project $(buildConfiguration)'
 
 - task: UseDotNet@2
   inputs:
