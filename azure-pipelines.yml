@@ -36,7 +36,7 @@ steps:
   displayName: 'Copy File JWK to: $(Build.ArtifactStagingDirectory)'
   inputs:
     Contents: |
-      *.jwk
+      **/*.jwk
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
