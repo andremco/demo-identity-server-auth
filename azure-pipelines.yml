@@ -32,13 +32,6 @@ steps:
     arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Staging -o $(Build.ArtifactStagingDirectory)'
     publishWebProjects: true
 
-- task: CopyFiles@2
-  displayName: 'Copy File JWK to: $(Build.ArtifactStagingDirectory)'
-  inputs:
-    Contents: |
-      src/src/IdentityServer/*.jwk
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
 - task: PublishBuildArtifacts@1
   displayName: 'Artifacts $(Build.ArtifactStagingDirectory)'
   inputs:
