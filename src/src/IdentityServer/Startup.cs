@@ -61,8 +61,7 @@ namespace IdentityServer
             }
             else
             {
-                //throw new NotImplementedException();
-                //LoadCertificate(builder);
+                LoadCertificate(builder);
             }
 
             services.AddHttpContextAccessor();
