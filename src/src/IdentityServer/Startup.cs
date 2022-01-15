@@ -62,7 +62,7 @@ namespace IdentityServer
                 //builder.AddDeveloperSigningCredential();
             }
 
-            LoadCertificateFromStorageAccount(builder);
+            //LoadCertificateFromStorageAccount(builder);
 
             services.AddHttpContextAccessor();
             services.AddApplicationInsightsTelemetry();
