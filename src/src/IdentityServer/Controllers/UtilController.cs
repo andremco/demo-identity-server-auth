@@ -1,4 +1,5 @@
-﻿using Azure.Identity;
+﻿using Azure.Core;
+using Azure.Identity;
 using Azure.Security.KeyVault.Certificates;
 using IdentityServer.Attributes;
 using IdentityServer.Settings;
@@ -49,7 +50,17 @@ namespace IdentityServer.Controllers
         public async Task<IActionResult> TestCert()
         {
             var azKeyVaultCert = _options.Value;
-            CertificateClient client = new CertificateClient(new Uri(azKeyVaultCert.KeyVaultUri), new DefaultAzureCredential());
+            CertificateClientOptions options = new CertificateClientOptions
+            {
+                Retry =
+                {
+                    Delay= TimeSpan.FromSeconds(2),
+                    MaxDelay = TimeSpan.FromSeconds(16),
+                    MaxRetries = 5,
+                    Mode = RetryMode.Exponential
+                }
+            };
+            CertificateClient client = new CertificateClient(new Uri(azKeyVaultCert.KeyVaultUri), new DefaultAzureCredential(), options);
             using X509Certificate2 certificate = await client.DownloadCertificateAsync(azKeyVaultCert.CertName);
 
             ECDsa key = certificate.GetECDsaPrivateKey();
