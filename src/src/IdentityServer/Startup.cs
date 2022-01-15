@@ -120,7 +120,7 @@ namespace IdentityServer
             var keyVaultName = Configuration.GetSection("AzureKeyVault:KeyVaultUri").Value;
             var certificateName = Configuration.GetSection("AzureKeyVault:CertName").Value;
             CertificateClient client = new CertificateClient(new Uri(keyVaultName), new DefaultAzureCredential());
-            using X509Certificate2 certificate = client.DownloadCertificate(certificateName);
+            using X509Certificate2 certificate = await client.DownloadCertificateAsync(certificateName);
 
             ECDsa key = certificate.GetECDsaPrivateKey();
 
