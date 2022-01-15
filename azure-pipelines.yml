@@ -29,7 +29,7 @@ steps:
   inputs:
     command: 'publish'
     projects: '**/*.sln'
-    arguments: '--configuration $(BuildConfiguration) -o $(Build.ArtifactStagingDirectory)'
+    arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Staging -o $(Build.ArtifactStagingDirectory)'
     publishWebProjects: true
 
 - task: PublishBuildArtifacts@1
