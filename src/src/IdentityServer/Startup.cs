@@ -61,6 +61,7 @@ namespace IdentityServer
             }
             else
             {
+                throw new NotImplementedException();
                 LoadCertificate(builder);
             }
 
