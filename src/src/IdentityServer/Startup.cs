@@ -5,6 +5,7 @@
 using Azure;
 using Azure.Identity;
 using Azure.Security.KeyVault.Certificates;
+using Azure.Storage.Files.Shares;
 using IdentityServer.Middlewares;
 using IdentityServer.Settings;
 using Microsoft.AspNetCore.Builder;
@@ -21,6 +22,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace IdentityServer
 {
@@ -57,12 +59,10 @@ namespace IdentityServer
             if (Environment.IsDevelopment())
             {
                 // not recommended for production - you need to store your key material somewhere secure
-                builder.AddDeveloperSigningCredential();
+                //builder.AddDeveloperSigningCredential();
             }
-            else
-            {
-                LoadCertificate(builder);
-            }
+
+            LoadCertificateFromStorageAccount(builder);
 
             services.AddHttpContextAccessor();
             services.AddApplicationInsightsTelemetry();
@@ -73,7 +73,8 @@ namespace IdentityServer
         public void RegisterServices(IServiceCollection services)
         {
             services.Configure<ApplicationInsightsSettings>(Configuration.GetSection("ApplicationInsights"));
-            services.Configure<AzureKeyVaultCert>(Configuration.GetSection("AzureKeyVault"));
+            services.Configure<CertificateSettings>(Configuration.GetSection("Certificate"));
+            services.Configure<StorageAccountSettings>(Configuration.GetSection("StorageAccount"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<ApplicationInsightsSettings> options)
@@ -104,7 +105,39 @@ namespace IdentityServer
             });
         }
 
-        public async void LoadCertificate(IIdentityServerBuilder builder)
+        public void LoadCertificateFromStorageAccount(IIdentityServerBuilder builder)
+        {
+            /*
+                Github - How to connect storage account azure
+                https://github.com/andremco/PocGetFileAzureApi/blob/master/PocGetFileAzureApi/Controllers/FileShareAzureController.cs
+            */
+
+            var connectionString = Configuration.GetSection("StorageAccount:ConnectionString").Value;
+            var shareName = Configuration.GetSection("StorageAccount:ShareName").Value;
+            var folder = Configuration.GetSection("StorageAccount:Folder").Value;
+            var fileCertName = Configuration.GetSection("Certificate:FileCertName").Value;
+            var passwordCert = Configuration.GetSection("Certificate:PasswordCert").Value;
+
+            ShareClient share = new ShareClient(connectionString, shareName);
+
+            ShareDirectoryClient directory = share.GetDirectoryClient(folder);
+
+            var file = directory.GetFileClient(fileCertName);
+
+            Stream stream = file.OpenRead();
+
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                var ecdsaCertificate = new X509Certificate2(memoryStream.ToArray(), passwordCert);
+
+                ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
+
+                builder.AddSigningCredential(ecdsaCertificatePublicKey, IdentityServer4.IdentityServerConstants.ECDsaSigningAlgorithm.ES256);
+            }
+        }
+
+        public async void LoadCertificateFromKeyVault(IIdentityServerBuilder builder)
         {
             /*
                 Article - Azure Key Vault Certificate client library for .NET
