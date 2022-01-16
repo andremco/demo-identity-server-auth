@@ -25,14 +25,6 @@ steps:
     arguments: '--configuration $(BuildConfiguration)'
     projects: '**/*.sln'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish Project $(BuildConfiguration)'
-  inputs:
-    command: 'publish'
-    projects: '**/*.sln'
-    arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(PublishDir)'
-    publishWebProjects: true
-
 - task: AzureCLI@2
   displayName: 'Publish Certificate to $(PublishDir)'
   inputs:
@@ -46,6 +38,14 @@ steps:
     PATHCERTSAZ: $(PathCertAz)
     SHARENAME: $(ShareName)
     DESTCERT: $(PublishDir)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Project $(BuildConfiguration)'
+  inputs:
+    command: 'publish'
+    projects: '**/*.sln'
+    arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(PublishDir)'
+    publishWebProjects: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Artifacts $(PublishDir)'
