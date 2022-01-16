@@ -3,6 +3,7 @@ using IdentityServer.Attributes;
 using IdentityServer.Settings;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -19,16 +20,19 @@ namespace IdentityServer.Controllers
         private readonly IConfiguration _configuration;
         private readonly CertificateSettings _certificateSettings;
         private readonly StorageAccountSettings _storageAccountSettings;
+        private readonly IWebHostEnvironment _environment;
 
         public UtilController(
             IConfiguration configuration, 
             IOptions<CertificateSettings> optionsCert,
-            IOptions<StorageAccountSettings> optionsStorage
+            IOptions<StorageAccountSettings> optionsStorage,
+            IWebHostEnvironment environment
         )
         {
             _configuration = configuration;
             _certificateSettings = optionsCert.Value;
             _storageAccountSettings = optionsStorage.Value;
+            _environment = environment;
         }
 
         public IActionResult Index()
@@ -56,16 +60,15 @@ namespace IdentityServer.Controllers
             var file = directory.GetFileClient(_certificateSettings.FileCertName);
 
             Stream stream = file.OpenRead();
-
+            using (var fileStream = System.IO.File.Create(Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName)))
             using (var memoryStream = new MemoryStream())
             {
-                stream.CopyTo(memoryStream);
-                var ecdsaCertificate = new X509Certificate2(memoryStream.ToArray(), _certificateSettings.PasswordCert, X509KeyStorageFlags.MachineKeySet
-                             | X509KeyStorageFlags.PersistKeySet
-                             | X509KeyStorageFlags.Exportable);
-
-                ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
+                stream.Seek(0, SeekOrigin.Begin);
+                stream.CopyTo(fileStream);
             }
+
+            var ecdsaCertificate = new X509Certificate2(Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName), _certificateSettings.PasswordCert);
+            ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
 
             return Ok();
         }
