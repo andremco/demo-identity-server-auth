@@ -60,7 +60,8 @@ namespace IdentityServer.Controllers
             using (var memoryStream = new MemoryStream())
             {
                 stream.CopyTo(memoryStream);
-                var ecdsaCertificate = new X509Certificate2(memoryStream.ToArray(), _certificateSettings.PasswordCert);
+                var ecdsaCertificate = new X509Certificate2(memoryStream.ToArray(), _certificateSettings.PasswordCert,  X509KeyStorageFlags.PersistKeySet
+                             | X509KeyStorageFlags.Exportable);
 
                 ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
             }
