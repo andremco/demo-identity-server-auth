@@ -12,4 +12,4 @@ $destCert = $env:DESTCERT
 # az storage file download
 az storage file download --account-key $accountKey --account-name $accountName --path $pathCertAz --share-name $shareName --no-progress --dest $destCert
 
-ls
+ls $destCert

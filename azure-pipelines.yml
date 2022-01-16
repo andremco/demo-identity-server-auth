@@ -39,17 +39,17 @@ steps:
     SHARENAME: $(ShareName)
     DESTCERT: $(DestCert)
 
-# - task: DotNetCoreCLI@2
-  # displayName: 'Publish Project $(BuildConfiguration)'
-  # inputs:
-    # command: 'publish'
-    # projects: '**/*.sln'
-    # arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(Build.ArtifactStagingDirectory)'
-    # publishWebProjects: true
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Project $(BuildConfiguration)'
+  inputs:
+    command: 'publish'
+    projects: '**/*.sln'
+    arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(Build.ArtifactStagingDirectory)'
+    publishWebProjects: true
 
-# - task: PublishBuildArtifacts@1
-  # displayName: 'Artifacts $(Build.ArtifactStagingDirectory)'
-  # inputs:
-    # pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    # artifactName: 'drop' 
-    # publishLocation: 'Container'
+- task: PublishBuildArtifacts@1
+  displayName: 'Artifacts $(Build.ArtifactStagingDirectory)'
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'drop' 
+    publishLocation: 'Container'
