@@ -30,11 +30,11 @@ steps:
   inputs:
     command: 'publish'
     projects: '**/*.sln'
-    arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(DestCert)'
+    arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(Build.ArtifactStagingDirectory)'
     publishWebProjects: true
 
 - task: AzureCLI@2
-  displayName: 'Publish Certificate to $(DestCert)'
+  displayName: 'Publish Certificate to $(Build.ArtifactStagingDirectory)'
   inputs:
     azureSubscription: 'Visual Studio Enterprise (e945f6ed-8c00-4129-8ecd-263ec98eaf36)'
     scriptType: pscore
@@ -45,11 +45,11 @@ steps:
     ACCOUNTNAME: $(AccountName)
     PATHCERTSAZ: $(PathCertAz)
     SHARENAME: $(ShareName)
-    DESTCERT: $(DestCert)
+    DESTCERT: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Artifacts $(DestCert)'
+  displayName: 'Artifacts $(Build.ArtifactStagingDirectory)'
   inputs:
-    pathtoPublish: '$(DestCert)'
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'drop' 
     publishLocation: 'Container'
