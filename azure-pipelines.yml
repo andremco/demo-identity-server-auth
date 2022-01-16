@@ -25,8 +25,16 @@ steps:
     arguments: '--configuration $(BuildConfiguration)'
     projects: '**/*.sln'
 
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Project $(BuildConfiguration)'
+  inputs:
+    command: 'publish'
+    projects: '**/*.sln'
+    arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(Build.ArtifactStagingDirectory)'
+    publishWebProjects: true
+
 - task: AzureCLI@2
-  displayName: 'Azure CLI'
+  displayName: 'Azure CLI Publish Certificate To $(DestCert)'
   inputs:
     azureSubscription: 'Visual Studio Enterprise (e945f6ed-8c00-4129-8ecd-263ec98eaf36)'
     scriptType: pscore
@@ -38,14 +46,6 @@ steps:
     PATHCERTSAZ: $(PathCertAz)
     SHARENAME: $(ShareName)
     DESTCERT: $(DestCert)
-
-- task: DotNetCoreCLI@2
-  displayName: 'Publish Project $(BuildConfiguration)'
-  inputs:
-    command: 'publish'
-    projects: '**/*.sln'
-    arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(Build.ArtifactStagingDirectory)'
-    publishWebProjects: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Artifacts $(Build.ArtifactStagingDirectory)'
