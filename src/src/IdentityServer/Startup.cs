@@ -39,6 +39,18 @@ namespace IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // If using Kestrel:
+            services.Configure<Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            // If using IIS:
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
             // uncomment, if you want to add an MVC-based UI
             services.AddControllersWithViews();
 
@@ -84,10 +96,17 @@ namespace IdentityServer
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<LogMiddleware>();
+
+            app.UseExceptionHandler(new ExceptionHandlerOptions
+            {
+                ExceptionHandler = new ErrorHandlerMiddleware(options, env).Invoke
+            });
+
             // uncomment if you want to add MVC
             app.UseStaticFiles();
             app.UseRouting();
-            
+
             app.UseIdentityServer();
 
             // uncomment, if you want to add MVC
@@ -95,13 +114,6 @@ namespace IdentityServer
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-            });
-
-            app.UseMiddleware<LogMiddleware>();
-
-            app.UseExceptionHandler(new ExceptionHandlerOptions
-            {
-                ExceptionHandler = new ErrorHandlerMiddleware(options, env).Invoke
             });
         }
 
