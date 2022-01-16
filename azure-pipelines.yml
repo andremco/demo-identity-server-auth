@@ -35,8 +35,9 @@ steps:
   env:
     ACCOUNTKEY: $(AccountKey)
     ACCOUNTNAME: $(AccountName)
-    PATHCERTSAZ: $(PathCertsAz)
+    PATHCERTSAZ: $(PathCertAz)
     SHARENAME: $(ShareName)
+    DESTCERT: $(DestCert)
 
 # - task: DotNetCoreCLI@2
   # displayName: 'Publish Project $(BuildConfiguration)'

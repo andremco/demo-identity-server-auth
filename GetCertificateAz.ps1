@@ -3,11 +3,13 @@ $accountKey = $env:ACCOUNTKEY
 # get env account name
 $accountName = $env:ACCOUNTNAME
 # get env path certificate pfx
-$pathCertsAz = $env:PATHCERTSAZ
+$pathCertAz = $env:PATHCERTAZ
 # get env share name
 $shareName = $env:SHARENAME
+# get env destination for file certificate
+$destCert = $env:DESTCERT
 
 # az storage file download
-az storage file download --account-key $accountKey --account-name $accountName --path $path --share-name $shareName --no-progress
+az storage file download --account-key $accountKey --account-name $accountName --path $pathCertAz --share-name $shareName --no-progress --dest $destCert
 
 ls
