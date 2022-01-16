@@ -32,6 +32,11 @@ steps:
     scriptType: pscore
     scriptPath: './GetCertificateAz.ps1'
     arguments: './GetCertificateAz.ps1;'
+  env:
+    ACCOUNTKEY: $(AccountKey)
+    ACCOUNTNAME: $(AccountName)
+    PATHCERTSAZ: $(PathCertsAz)
+    SHARENAME: $(ShareName)
 
 # - task: DotNetCoreCLI@2
   # displayName: 'Publish Project $(BuildConfiguration)'
