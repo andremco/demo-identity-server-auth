@@ -3,9 +3,9 @@ $accountKey = $env:ACCOUNTKEY
 # get env account name
 $accountName = $env:ACCOUNTNAME
 # get env path certificate pfx
-$path = "certs/ecdsaCert.pfx"
+$pathCertsAz = $env:PATHCERTSAZ
 # get env share name
-$shareName = "certs"
+$shareName = $env:SHARENAME
 
 # az storage file download
 az storage file download --account-key $accountKey --account-name $accountName --path $path --share-name $shareName --no-progress
