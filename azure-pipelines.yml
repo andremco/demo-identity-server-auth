@@ -34,7 +34,7 @@ steps:
     publishWebProjects: true
 
 - task: AzureCLI@2
-  displayName: 'Azure CLI Publish Certificate To $(DestCert)'
+  displayName: 'Publish Certificate to $(Build.ArtifactStagingDirectory)'
   inputs:
     azureSubscription: 'Visual Studio Enterprise (e945f6ed-8c00-4129-8ecd-263ec98eaf36)'
     scriptType: pscore
