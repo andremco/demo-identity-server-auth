@@ -67,10 +67,14 @@ namespace IdentityServer.Controllers
                 stream.CopyTo(fileStream);
             }
 
-            var ecdsaCertificate = new X509Certificate2(Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName), _certificateSettings.PasswordCert);
-            ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
+            if (System.IO.File.Exists(Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName)))
+            {
+                var ecdsaCertificate = new X509Certificate2(Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName), _certificateSettings.PasswordCert);
+                ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
 
-            return Ok();
+                return Ok();
+            }
+            return NotFound(new { message = "Arquivo não existe " + Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName) });
         }
     }
 }
