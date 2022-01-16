@@ -45,7 +45,7 @@ steps:
     ACCOUNTNAME: $(AccountName)
     PATHCERTSAZ: $(PathCertAz)
     SHARENAME: $(ShareName)
-    DESTCERT: $(Build.ArtifactStagingDirectory)
+    DESTCERT: $$(DestCert)
 
 - task: PublishBuildArtifacts@1
   displayName: 'Artifacts $(Build.ArtifactStagingDirectory)'
