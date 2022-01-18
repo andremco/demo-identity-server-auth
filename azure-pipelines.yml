@@ -22,7 +22,7 @@ steps:
   displayName: 'Start Building Project $(BuildConfiguration)'
   inputs:
     command: 'build'
-    arguments: '--configuration $(BuildConfiguration) -o ./build/'
+    arguments: '--configuration $(BuildConfiguration)'
     projects: '**/*.sln'
 
 - task: AzureCLI@2
