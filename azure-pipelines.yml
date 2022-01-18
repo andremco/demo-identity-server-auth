@@ -47,9 +47,9 @@ steps:
     SHARENAME: $(ShareName)
     DESTCERT: $(DestCert)
 
-# - task: PublishBuildArtifacts@1
-#   displayName: 'Artifacts $(Build.ArtifactStagingDirectory)'
-#   inputs:
-#     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-#     artifactName: 'drop' 
-#     publishLocation: 'Container'
+- task: PublishBuildArtifacts@1
+  displayName: 'Artifacts $(DestCert)'
+  inputs:
+    pathtoPublish: '$(DestCert)' 
+    artifactName: 'drop' 
+    publishLocation: 'Container'
