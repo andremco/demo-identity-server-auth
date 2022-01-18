@@ -71,7 +71,11 @@ namespace IdentityServer
             if (Environment.IsDevelopment())
             {
                 // not recommended for production - you need to store your key material somewhere secure
-                //builder.AddDeveloperSigningCredential();
+                builder.AddDeveloperSigningCredential();
+            }
+            else
+            {
+
             }
 
             //LoadCertificateFromStorageAccount(builder);
@@ -117,7 +121,7 @@ namespace IdentityServer
             });
         }
 
-        public void LoadCertificateFromStorageAccount(IIdentityServerBuilder builder)
+        private void LoadCertificateFromStorageAccount(IIdentityServerBuilder builder)
         {
             /*
                 Github - How to connect storage account azure
@@ -149,7 +153,7 @@ namespace IdentityServer
             }
         }
 
-        public async void LoadCertificateFromKeyVault(IIdentityServerBuilder builder)
+        private async void LoadCertificateFromKeyVault(IIdentityServerBuilder builder)
         {
             /*
                 Article - Azure Key Vault Certificate client library for .NET

@@ -60,12 +60,12 @@ namespace IdentityServer.Controllers
             var file = directory.GetFileClient(_certificateSettings.FileCertName);
 
             Stream stream = file.OpenRead();
-            using (var fileStream = System.IO.File.Create(Path.Combine(_environment.ContentRootPath, "Test.txt")))
-            using (var memoryStream = new MemoryStream())
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-                stream.CopyTo(fileStream);
-            }
+            //using (var fileStream = System.IO.File.Create(Path.Combine(_environment.ContentRootPath, "Test.txt")))
+            //using (var memoryStream = new MemoryStream())
+            //{
+            //    stream.Seek(0, SeekOrigin.Begin);
+            //    stream.CopyTo(fileStream);
+            //}
 
             if (System.IO.File.Exists(Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName)))
             {
