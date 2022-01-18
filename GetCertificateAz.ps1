@@ -17,6 +17,6 @@ mkdir $publishDir
 # az storage file certificate download
 az storage file download --account-key $accountKey --account-name $accountName --path $pathCertAz --share-name $shareName --no-progress --dest $publishDir
 
-pwd
+# pwd
 
 ls $destCert
