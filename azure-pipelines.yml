@@ -25,13 +25,13 @@ steps:
     arguments: '--configuration $(BuildConfiguration)'
     projects: '**/*.sln'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish Project $(BuildConfiguration)'
-  inputs:
-    command: 'publish'
-    projects: '**/*.sln'
-    arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(Build.ArtifactStagingDirectory)'
-    publishWebProjects: true
+# - task: DotNetCoreCLI@2
+#   displayName: 'Publish Project $(BuildConfiguration)'
+#   inputs:
+#     command: 'publish'
+#     projects: '**/*.sln'
+#     arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(Build.ArtifactStagingDirectory)'
+#     publishWebProjects: true
 
 - task: AzureCLI@2
   displayName: 'Publish Certificate to $(Build.ArtifactStagingDirectory)'
