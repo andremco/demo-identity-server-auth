@@ -25,32 +25,17 @@ steps:
     arguments: '--configuration $(BuildConfiguration)'
     projects: '**/*.sln'
 
-- task: AzureCLI@2
-  displayName: 'Publish Certificate to /$(PublishDir)/$(NameProject)'
-  inputs:
-    azureSubscription: 'Visual Studio Enterprise (e945f6ed-8c00-4129-8ecd-263ec98eaf36)'
-    scriptType: pscore
-    scriptPath: './GetCertificateAz.ps1'
-    arguments: './GetCertificateAz.ps1;'
-  env:
-    ACCOUNTKEY: $(AccountKey)
-    ACCOUNTNAME: $(AccountName)
-    PATHCERTSAZ: $(PathCertAz)
-    SHARENAME: $(ShareName)
-    NAMEPROJECT: $(NameProject)
-    PUBLISHDIR: $(PublishDir)
-
 - task: DotNetCoreCLI@2
-  displayName: 'Publish Project $(BuildConfiguration) to /$(PublishDir)/$(NameProject)'
+  displayName: 'Publish Project $(BuildConfiguration) to $(System.ArtifactsDirectory)'
   inputs:
     command: 'publish'
     projects: '**/$(NameProject).csproj'
-    arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(PublishDir)'
+    arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(System.ArtifactsDirectory)'
     publishWebProjects: true
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Artifacts $(PublishDir)'
+  displayName: 'Artifacts $(System.ArtifactsDirectory)'
   inputs:
-    pathtoPublish: '$(PublishDir)' 
+    pathtoPublish: '$(System.ArtifactsDirectory)' 
     artifactName: 'drop' 
     publishLocation: 'Container'

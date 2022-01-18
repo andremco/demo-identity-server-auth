@@ -50,34 +50,5 @@ namespace IdentityServer.Controllers
             var secret = new Secret(pass.Sha256());
             return Ok(new { success = true, secret = secret.Value });
         }
-
-        public IActionResult TestCert()
-        {
-            ShareClient share = new ShareClient(_storageAccountSettings.ConnectionString, _storageAccountSettings.ShareName);
-
-            ShareDirectoryClient directory = share.GetDirectoryClient(_storageAccountSettings.Folder);
-
-            var file = directory.GetFileClient(_certificateSettings.FileCertName);
-
-            Stream stream = file.OpenRead();
-            //using (var fileStream = System.IO.File.Create(Path.Combine(_environment.ContentRootPath, "Test.txt")))
-            //using (var memoryStream = new MemoryStream())
-            //{
-            //    stream.Seek(0, SeekOrigin.Begin);
-            //    stream.CopyTo(fileStream);
-            //}
-
-            if (System.IO.File.Exists(Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName)))
-            {
-                var filepath = Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName);
-                var ecdsaCertificate = new X509Certificate2(filepath, _certificateSettings.PasswordCert, 
-                                X509KeyStorageFlags.EphemeralKeySet);
-
-                ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
-
-                return Ok();
-            }
-            return NotFound(new { message = "Arquivo não existe " + Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName) });
-        }
     }
 }
