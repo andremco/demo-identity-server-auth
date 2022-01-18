@@ -71,9 +71,7 @@ namespace IdentityServer.Controllers
             {
                 var filepath = Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName);
                 var ecdsaCertificate = new X509Certificate2(filepath, _certificateSettings.PasswordCert, 
-                                X509KeyStorageFlags.MachineKeySet
-                             | X509KeyStorageFlags.PersistKeySet
-                             | X509KeyStorageFlags.Exportable);
+                                X509KeyStorageFlags.EphemeralKeySet);
 
                 //ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
 
