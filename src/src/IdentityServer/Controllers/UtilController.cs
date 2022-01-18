@@ -69,8 +69,8 @@ namespace IdentityServer.Controllers
 
             if (System.IO.File.Exists(Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName)))
             {
-                var ecdsaCertificate = new X509Certificate2(Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName), _certificateSettings.PasswordCert);
-                ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
+                //var ecdsaCertificate = new X509Certificate2(Path.Combine(_environment.ContentRootPath, _certificateSettings.FileCertName), _certificateSettings.PasswordCert);
+                //ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
 
                 return Ok();
             }
