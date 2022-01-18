@@ -25,16 +25,8 @@ steps:
     arguments: '--configuration $(BuildConfiguration)'
     projects: '**/*.sln'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish Project $(BuildConfiguration)'
-  inputs:
-    command: 'publish'
-    projects: '**/$(NameProject).csproj'
-    arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(PublishDir)'
-    publishWebProjects: true
-
 - task: AzureCLI@2
-  displayName: 'Publish Certificate to /$(PublishDir)/'
+  displayName: 'Publish Certificate to /$(PublishDir)/$(NameProject)'
   inputs:
     azureSubscription: 'Visual Studio Enterprise (e945f6ed-8c00-4129-8ecd-263ec98eaf36)'
     scriptType: pscore
@@ -47,6 +39,14 @@ steps:
     SHARENAME: $(ShareName)
     NAMEPROJECT: $(NameProject)
     PUBLISHDIR: $(PublishDir)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Project $(BuildConfiguration) to /$(PublishDir)/$(NameProject)'
+  inputs:
+    command: 'publish'
+    projects: '**/$(NameProject).csproj'
+    arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(PublishDir)'
+    publishWebProjects: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Artifacts $(PublishDir)'
