@@ -73,7 +73,7 @@ namespace IdentityServer.Controllers
                 var ecdsaCertificate = new X509Certificate2(filepath, _certificateSettings.PasswordCert, 
                                 X509KeyStorageFlags.EphemeralKeySet);
 
-                //ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
+                ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
 
                 return Ok();
             }

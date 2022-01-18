@@ -75,10 +75,10 @@ namespace IdentityServer
             }
             else
             {
-
+                LoadCertificateFromStorageAccount(builder);
             }
 
-            //LoadCertificateFromStorageAccount(builder);
+
 
             services.AddHttpContextAccessor();
             services.AddApplicationInsightsTelemetry();
@@ -145,7 +145,7 @@ namespace IdentityServer
             using (var memoryStream = new MemoryStream())
             {
                 stream.CopyTo(memoryStream);
-                var ecdsaCertificate = new X509Certificate2(memoryStream.ToArray(), passwordCert);
+                var ecdsaCertificate = new X509Certificate2(memoryStream.ToArray(), passwordCert, X509KeyStorageFlags.EphemeralKeySet);
 
                 ECDsaSecurityKey ecdsaCertificatePublicKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
 
