@@ -37,19 +37,20 @@ steps:
     ACCOUNTNAME: $(AccountName)
     PATHCERTSAZ: $(PathCertAz)
     SHARENAME: $(ShareName)
-    DESTCERT: $(DestCert)
+    NAMEPROJECT: $(NameProject)
+    PUBLISHDIR: $(PublishDir)
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish Project $(BuildConfiguration)'
   inputs:
     command: 'publish'
-    projects: '**/*.sln'
-    arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(DestCert)'
+    projects: '**/$(NameProject).csproj'
+    arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(PublishDir)'
     publishWebProjects: true
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Artifacts $(DestCert)'
+  displayName: 'Artifacts $(PublishDir)'
   inputs:
-    pathtoPublish: '$(DestCert)' 
+    pathtoPublish: '$(PublishDir)' 
     artifactName: 'drop' 
     publishLocation: 'Container'

@@ -6,13 +6,16 @@ $accountName = $env:ACCOUNTNAME
 $pathCertAz = $env:PATHCERTAZ
 # get env share name
 $shareName = $env:SHARENAME
+# get env name for project
+$nameProject = $env:NAMEPROJECT 
 # get env destination for file certificate
-$destCert = $env:DESTCERT
+$publishDir = "./$env:PUBLISHDIR/$nameProject/"
 
-mkdir $destCert
+# create folder to publish project
+mkdir $publishDir
 
-# az storage file download
-az storage file download --account-key $accountKey --account-name $accountName --path $pathCertAz --share-name $shareName --no-progress --dest $destCert
+# az storage file certificate download
+az storage file download --account-key $accountKey --account-name $accountName --path $pathCertAz --share-name $shareName --no-progress --dest $publishDir
 
 pwd
 
