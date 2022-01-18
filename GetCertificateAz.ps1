@@ -9,7 +9,7 @@ $shareName = $env:SHARENAME
 # get env destination for file certificate
 $destCert = $env:DESTCERT
 
-# Write-Output $destCert
+Write-Output $destCert
 
 # az storage file download
 az storage file download --account-key $accountKey --account-name $accountName --path $pathCertAz --share-name $shareName --no-progress --dest $destCert
