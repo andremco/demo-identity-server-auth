@@ -18,23 +18,23 @@ steps:
     version: '3.0.x'
     packageType: runtime
 
-- task: DotNetCoreCLI@2
-  displayName: 'Start Building Project $(BuildConfiguration)'
-  inputs:
-    command: 'build'
-    arguments: '--configuration $(BuildConfiguration)'
-    projects: '**/*.sln'
+# - task: DotNetCoreCLI@2
+#   displayName: 'Start Building Project $(BuildConfiguration)'
+#   inputs:
+#     command: 'build'
+#     arguments: '--configuration $(BuildConfiguration)'
+#     projects: '**/*.sln'
 
 # - task: DotNetCoreCLI@2
 #   displayName: 'Publish Project $(BuildConfiguration)'
 #   inputs:
 #     command: 'publish'
 #     projects: '**/*.sln'
-#     arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(System.DefaultWorkingDirectory)/publish'
+#     arguments: '--no-build --no-restore /p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(System.DefaultWorkingDirectory)\publish'
 #     publishWebProjects: true
 
 - task: AzureCLI@2
-  displayName: 'Publish Certificate to $(System.DefaultWorkingDirectory)/publish'
+  displayName: 'Publish Certificate to $(System.DefaultWorkingDirectory)\publish'
   inputs:
     azureSubscription: 'Visual Studio Enterprise (e945f6ed-8c00-4129-8ecd-263ec98eaf36)'
     scriptType: pscore
@@ -45,7 +45,7 @@ steps:
     ACCOUNTNAME: $(AccountName)
     PATHCERTSAZ: $(PathCertAz)
     SHARENAME: $(ShareName)
-    DESTCERT: $(System.DefaultWorkingDirectory)/publish
+    DESTCERT: $(System.DefaultWorkingDirectory)\publish
 
 # - task: PublishBuildArtifacts@1
 #   displayName: 'Artifacts $(Build.ArtifactStagingDirectory)'
