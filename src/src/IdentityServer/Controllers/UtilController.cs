@@ -1,5 +1,4 @@
-﻿using Azure.Storage.Files.Shares;
-using IdentityServer.Attributes;
+﻿using IdentityServer.Attributes;
 using IdentityServer.Settings;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -7,9 +6,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
 
 namespace IdentityServer.Controllers
 {

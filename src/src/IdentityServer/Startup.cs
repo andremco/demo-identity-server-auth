@@ -78,8 +78,6 @@ namespace IdentityServer
                 LoadCertificateFromStorageAccount(builder);
             }
 
-
-
             services.AddHttpContextAccessor();
             services.AddApplicationInsightsTelemetry();
 
@@ -127,6 +125,16 @@ namespace IdentityServer
                 Github - How to connect storage account azure
                 https://github.com/andremco/PocGetFileAzureApi/blob/master/PocGetFileAzureApi/Controllers/FileShareAzureController.cs
             */
+
+            /*
+                Github - System cannot find the file specified issue with x509certificate2
+                https://github.com/projectkudu/kudu/wiki/Configurable-settings#the-system-cannot-find-the-file-specified-issue-with-x509certificate2
+             */
+
+            /*
+                Github - .NET Core 2.2, Azure Web API new X509Certificate2 "The system cannot find the file specified" and "access denied"
+                https://stackoverflow.com/questions/55051277/net-core-2-2-azure-web-api-new-x509certificate2-the-system-cannot-find-the-fi
+             */
 
             var connectionString = Configuration.GetSection("StorageAccount:ConnectionString").Value;
             var shareName = Configuration.GetSection("StorageAccount:ShareName").Value;
