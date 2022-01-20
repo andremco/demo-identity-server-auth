@@ -22,10 +22,13 @@ namespace GenerateCertificates
 
             _cc = sp.GetService<CreateCertificates>();
 
-            var rsaCert = RsaCertificate.Create(_cc, "localhost", 10);
-            var ecdsaCert = ECDsaCertificate.Create(_cc, "localhost", 10);
+            var yourDns = "YourDns";
+            string password = "YourPass";
+            var validityPeriodInYears = 10;
 
-            string password = "MyPass@123";
+            var rsaCert = RsaCertificate.Create(_cc, yourDns, validityPeriodInYears);
+            var ecdsaCert = ECDsaCertificate.Create(_cc, yourDns, validityPeriodInYears);
+
             var iec = sp.GetService<ImportExportCertificate>();
 
             var rsaCertPfxBytes =

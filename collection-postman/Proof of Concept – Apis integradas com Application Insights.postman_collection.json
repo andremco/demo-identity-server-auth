@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "fb1962fb-d1ea-4c3b-b2ee-f87813ed30f7",
+		"name": "Proof of Concept – Apis integradas com Application Insights",
+		"description": "# Collection para demo de apis integradas com application insights\n\nNesta collection expõe algumas rotas para demostrar a chamadas na api de autenticação e autorização, e a api custom countries.\n\n#### Exemplo para obter todos os países da api custom countries\n\n##### 1 - Obter bearer token do api demo identity server\n\nChamar a rota `connect/token`.  \nResposta de exemplo:\n\n``` json\n{\n    \"access_token\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6IkYxREQ2M0NFQ0MxRkU4MkIxOUVFODQwRUEzNDI2RUQ4IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2NDExNTI5NjgsImV4cCI6MTY0MTE1NjU2OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEvcmVzb3VyY2VzIiwiY2xpZW50X2lkIjoiQXBpQ3VzdG9tQ291bnRyaWVzIiwianRpIjoiNjBFNTA5NDU5OEJCNTMyNjlBMDY5QUM5NTJFQTBDRUMiLCJpYXQiOjE2NDExNTI5NjgsInNjb3BlIjpbImFwaS5jdXN0b20uY291bnRyaWVzIiwiYXBpMSJdfQ.5GpRy0_AJfv5jmWNzUGTEsUF3NL-mUCFliZ2KUbCcfppQ-2F9eFCZh5TuP7jlEM2IeJLTFgwOBW-6s9m9LQ7IHTafT4Gg1r1VeNRYAyLlj5uNaikKGaNllSEMuw2wVK2K_JTB89QYbbBU9VD3S-NJYVlnwtvnBjH3GL4hyV17swIlWvk4SxidQWfHfuiHvXbvaDVaOs9BgPwKhQ3yfU3__Bjbi14dQZFdIf77562CsqDQiAF7vfKBEmyDamr-viD21MDMmwoAClVsbl1yYmtSwihdq5PdYOOVbsVVYg1Be8Q6COrnikk-IQAIUa637U5P8L5m0-CZamSwysQsMB9xQ\",\n    \"expires_in\": 3600,\n    \"token_type\": \"Bearer\",\n    \"scope\": \"api.custom.countries api1\"\n}\n\n```\n\n##### 2 - Trocar o valor da variável bearer_jwt da collection\n\nPrimeiro é necessário copiar o valor da propriedade `access_token`, que é obtido na rota `connect/token`, e depois localizar a aba `Variables` da collection no postman, e alterar a variável `bearer_jwt`, na coluna `CURRENT VALUE` para `Bearer valor_access_token`.\n\n##### 3 - Obter todos os países da api custom countries\n\nChamar a rota `api/v1/countries`.  \nResposta de exemplo:\n\n``` json\n[\n    {\n        \"id\": \"61cb2cafeb5a93b3f1dc54dd\",\n        \"createdAt\": \"2021-12-28T15:26:39Z\",\n        \"name\": \"Netherlands\",\n        \"native\": \"Nederland\",\n        \"capital\": \"Amsterdam\",\n        \"emoji\": \"🇳🇱\",\n        \"currency\": \"EUR\",\n        \"languages\": [\n            {\n                \"code\": \"nl\",\n                \"name\": \"Dutch\"\n            }\n        ]\n    },\n    ...\n] \n\n```",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "DemoIdentityServer",
+			"item": [
+				{
+					"name": "connect/token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "api.custom.countries api1",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IdentityServerAz}}/connect/token",
+							"host": [
+								"{{IdentityServerAz}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Util/GenerateKeyForClient",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IdentityServerAz}}/Util/GenerateKeyForClient/?pass=b8b66f0a8781609214dc1fac0c43c5284491cbc00dfcc968ebbe834df3022894",
+							"host": [
+								"{{IdentityServerAz}}"
+							],
+							"path": [
+								"Util",
+								"GenerateKeyForClient",
+								""
+							],
+							"query": [
+								{
+									"key": "pass",
+									"value": "b8b66f0a8781609214dc1fac0c43c5284491cbc00dfcc968ebbe834df3022894"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "openid-configuration",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IdentityServerAz}}/.well-known/openid-configuration",
+							"host": [
+								"{{IdentityServerAz}}"
+							],
+							"path": [
+								".well-known",
+								"openid-configuration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jwks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IdentityServerAz}}/.well-known/openid-configuration/jwks",
+							"host": [
+								"{{IdentityServerAz}}"
+							],
+							"path": [
+								".well-known",
+								"openid-configuration",
+								"jwks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CustomCountriesApi",
+			"item": [
+				{
+					"name": "Identity",
+					"item": [
+						{
+							"name": "api/v1/identity",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer_jwt}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{CustomCountriesApiLocal}}/api/v1/identity",
+									"host": [
+										"{{CustomCountriesApiLocal}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"identity"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Countries",
+					"item": [
+						{
+							"name": "api/v1/countries",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer_jwt}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{CustomCountriesApiLocal}}/api/v1/countries",
+									"host": [
+										"{{CustomCountriesApiLocal}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"countries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api/v1/countries",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{bearer_jwt}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Brazil\",\r\n  \"native\": \"Brasil\",\r\n  \"capital\": \"Brasília\",\r\n  \"emoji\": \"🇧🇷\",\r\n  \"currency\": \"BRL\",\r\n  \"languages\": [\r\n    {\r\n      \"code\": \"pt\",\r\n      \"name\": \"Portuguese\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CustomCountriesApiLocal}}/api/v1/countries",
+									"host": [
+										"{{CustomCountriesApiLocal}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"countries"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "IdentityServerLocal",
+			"value": "https://localhost:5001"
+		},
+		{
+			"key": "IdentityServerAz",
+			"value": "https://demo-id-auth.azurewebsites.net",
+			"type": "string"
+		},
+		{
+			"key": "CustomCountriesApiLocal",
+			"value": "https://localhost:5002"
+		},
+		{
+			"key": "client_id",
+			"value": "ApiCustomCountries"
+		},
+		{
+			"key": "client_secret",
+			"value": "b8b66f0a8781609214dc1fac0c43c5284491cbc00dfcc968ebbe834df3022894"
+		},
+		{
+			"key": "bearer_jwt",
+			"value": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkYxREQ2M0NFQ0MxRkU4MkIxOUVFODQwRUEzNDI2RUQ4IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2NDExNTM2NTIsImV4cCI6MTY0MTE1NzI1MiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEvcmVzb3VyY2VzIiwiY2xpZW50X2lkIjoiQXBpQ3VzdG9tQ291bnRyaWVzIiwianRpIjoiNDQ5Mzc4MkYxQkI5Q0Q1QzhFNkEyNTYzQTczMjEzQjMiLCJpYXQiOjE2NDExNTM2NTIsInNjb3BlIjpbImFwaS5jdXN0b20uY291bnRyaWVzIiwiYXBpMSJdfQ.GTxSro-lD0C9f-MsEOsuo76tdPSnb7g6cPxJonovJxb-qbbGTSoPhLCZ4Awm6Ch9vuAnqEV75CH7S3Ww5FfteLgV55nuxt8qzImxNq7UR-A_ek9UhFAksPQpqJIk5iOk-sqzibO0e_3j7wrZxuufiJyVyq5VZuqeVVyTcWz5O8i26aZ3bFt1FEunYr8JmsQT-kt1iszrGQlXR1WBxoBVw2CSgL8O411a8DS78Ext3a0rRNF1ucQcvbl2XY-jz3T7mwSvILmdg1Pd48qtTsUeeKt0IdsthpK_ow_vBHXzyyZ0hSOr1CZc1vSMHThsTylWVqRSp72knT2GicYiMub8TA"
+		}
+	]
+}
