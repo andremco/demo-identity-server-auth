@@ -24,15 +24,16 @@ Neste repositório possui um projeto que gera um certificado para utilização d
 
 ## Storage Account Azure
 
-Caso o projeto rode em um ambiente diferente do local, e necessário ter uma instância do Storage Account Azure, e configurar um File Share.
+Caso o projeto rode em um ambiente diferente do local, e necessário ter uma instância do Storage Account Azure, e configurar um File Share. E posteriormente fazer o upload do arquivo `*.pfx` no recurso AZ criado.
 Para mais informações, segue este [tutorial](https://docs.microsoft.com/pt-br/azure/storage/files/storage-how-to-create-file-share?tabs=azure-portal).
 
 ## Teste das rotas via postman
 
-O projeto `demo identity server auth` está rodando no seguinte -> [endpoint](https://demo-id-auth.azurewebsites.net), para testar as rotas dessa aplicação, foi disponibilizado um arquivo para o postman importar a collection das rotas. Obter o arquivo no caminho - `collection-postman\Proof of Concept – Apis integradas com Application Insights.postman_collection.json`
+O projeto `demo identity server auth` está rodando no seguinte -> [endpoint](https://demo-id-auth.azurewebsites.net/.well-known/openid-configuration), para testar as rotas dessa aplicação, foi disponibilizado um arquivo para o postman importar a collection das rotas. Obter o arquivo no caminho - `collection-postman\Proof of Concept – Apis integradas com Application Insights.postman_collection.json`
 
 ## Arquitetura da API
 
 - Utilizando injeção de dependências nas classes
 - Padrão singleton utilizando uma instância somente
 - MVC para o fluxo de autenticação e autorização
+ 
