@@ -31,6 +31,9 @@ Para mais informações, segue este [tutorial](https://docs.microsoft.com/pt-br/
 
 O projeto `demo identity server auth` está rodando no seguinte -> [endpoint](https://demo-id-auth.azurewebsites.net/.well-known/openid-configuration), para testar as rotas dessa aplicação, foi disponibilizado um arquivo para o postman importar a collection das rotas. Obter o arquivo no caminho - `collection-postman\Proof of Concept – Apis integradas com Application Insights.postman_collection.json`
 
+## Criar clients para demo identity server auth
+Os clients estão definidos no `appsettings.json`, pois eles são carregados em memória nesse projeto, para criar um client é necessário colocar as informações nesse arquivo. Para criar um `client secret`, utilize a rota `Util/GenerateKeyForClient/?pass={SuaSenha}`, depois é só obter o valor da variável `secret` e colocar em `value` do arquivo.
+
 ## Arquitetura da API
 
 - Utilizando injeção de dependências nas classes
